@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net45": {
+      "wrappedProject": "../../Td.Kylin.IM.Data/Td.Kylin.IM.Data.csproj",
+      "bin": {
+        "assembly": "../../Td.Kylin.IM.Data/obj/{configuration}/Td.Kylin.IM.Data.dll",
+        "pdb": "../../Td.Kylin.IM.Data/obj/{configuration}/Td.Kylin.IM.Data.pdb"
+      },
+      "dependencies": {
+        "EntityFramework.Core": "7.0.0-rc1-final",
+        "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
+        "EntityFramework.Relational": "7.0.0-rc1-final",
+        "EntityFramework7.Npgsql": "3.1.0-rc1-3",
+        "Ix-Async": "1.2.5",
+        "Microsoft.AspNet.Http.Abstractions": "1.0.0-rc1-final",
+        "Microsoft.AspNet.Http.Features": "1.0.0-rc1-final",
+        "Microsoft.Extensions.Caching.Abstractions": "1.0.0-rc1-final",
+        "Microsoft.Extensions.Caching.Memory": "1.0.0-rc1-final",
+        "Microsoft.Extensions.Configuration": "1.0.0-rc1-final",
+        "Microsoft.Extensions.Configuration.Abstractions": "1.0.0-rc1-final",
+        "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc1-final",
+        "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1-final",
+        "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc1-final",
+        "Microsoft.Extensions.Logging": "1.0.0-rc1-final",
+        "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc1-final",
+        "Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
+        "Microsoft.Extensions.Primitives": "1.0.0-rc1-final",
+        "Microsoft.Extensions.WebEncoders.Core": "1.0.0-rc1-final",
+        "Npgsql": "3.1.0-alpha6",
+        "Remotion.Linq": "2.0.1",
+        "System.Collections.Immutable": "1.1.36",
+        "System.Diagnostics.DiagnosticSource": "4.0.0-beta-23516",
+        "System.Diagnostics.Tracing": "4.0.0",
+        "System.Runtime": "4.0.0",
+        "System.Threading": "4.0.0"
+      }
+    }
+  }
+}
