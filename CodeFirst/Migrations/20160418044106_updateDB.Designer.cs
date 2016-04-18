@@ -8,38 +8,13 @@ using CodeFirst.Context;
 namespace CodeFirst.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20160418044106_updateDB")]
+    partial class updateDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");
-
-            modelBuilder.Entity("Td.Kylin.IM.Data.Entity.ErrorLog", b =>
-                {
-                    b.Property<long>("LogID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreateTime");
-
-                    b.Property<string>("HelpLink")
-                        .HasAnnotation("Relational:ColumnType", "varchar(200)");
-
-                    b.Property<string>("Message")
-                        .HasAnnotation("Relational:ColumnType", "varchar(200)");
-
-                    b.Property<string>("Source")
-                        .HasAnnotation("Relational:ColumnType", "varchar(200)");
-
-                    b.Property<string>("StackTrace")
-                        .HasAnnotation("Relational:ColumnType", "text");
-
-                    b.Property<string>("Tag");
-
-                    b.HasKey("LogID");
-
-                    b.HasAnnotation("Relational:TableName", "ErrorLog");
-                });
 
             modelBuilder.Entity("Td.Kylin.IM.Data.Entity.LastMessage", b =>
                 {
@@ -126,8 +101,6 @@ namespace CodeFirst.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<DateTime>("LastLoginTime");
-
                     b.Property<string>("NickName")
                         .HasAnnotation("Relational:ColumnType", "varchar(50)");
 
@@ -143,29 +116,6 @@ namespace CodeFirst.Migrations
                     b.HasKey("UserID");
 
                     b.HasAnnotation("Relational:TableName", "User");
-                });
-
-            modelBuilder.Entity("Td.Kylin.IM.Data.Entity.UserLoginRecords", b =>
-                {
-                    b.Property<long>("RecordID");
-
-                    b.Property<int>("AreaID");
-
-                    b.Property<string>("AreaName");
-
-                    b.Property<double>("Latitude");
-
-                    b.Property<DateTime>("LoginTime");
-
-                    b.Property<double>("Longitude");
-
-                    b.Property<int>("TerminalDevice");
-
-                    b.Property<long>("UserID");
-
-                    b.HasKey("RecordID");
-
-                    b.HasAnnotation("Relational:TableName", "UserLoginRecords");
                 });
         }
     }

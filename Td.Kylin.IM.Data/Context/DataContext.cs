@@ -6,7 +6,7 @@ namespace Td.Kylin.IM.Data.Context
     /// <summary>
     /// DbContext抽象类
     /// </summary>
-    internal abstract partial class DataContext : DbContext
+    public abstract partial class DataContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
@@ -28,17 +28,27 @@ namespace Td.Kylin.IM.Data.Context
                 entity.HasKey(p => p.MessageID);
             });
 
-            modelBuilder.Entity<UnreadMessage>(entity =>
+            modelBuilder.Entity<UnSendMessage>(entity =>
             {
                 entity.Property(p => p.MessageID).ValueGeneratedNever();
                 entity.HasKey(p => p.MessageID);
             });
 
-            modelBuilder.Entity<LastMessage>(entity =>
+            modelBuilder.Entity<ErrorLog>(entity =>
             {
-                entity.Property(p => p.MessageID).ValueGeneratedNever();
-                entity.HasKey(p => p.MessageID);
+                entity.HasKey(p => p.LogID);
             });
+
+            modelBuilder.Entity<UserLoginRecords>(entity =>
+           {
+               entity.Property(p => p.RecordID).ValueGeneratedNever();
+               entity.HasKey(p => p.RecordID);
+           });
+
+            modelBuilder.Entity<UserRelation>(entity =>
+           {
+               entity.HasKey(p => new { p.FirstUser, p.SecondUser });
+           });
         }
         #endregion
 
@@ -48,9 +58,13 @@ namespace Td.Kylin.IM.Data.Context
 
         public DbSet<MessageHistory> MessageHistory { get { return Set<MessageHistory>(); } }
 
-        public DbSet<UnreadMessage> UnreadMessage { get { return Set<UnreadMessage>(); } }
+        public DbSet<UnSendMessage> UnreadMessage { get { return Set<UnSendMessage>(); } }
 
-        public DbSet<LastMessage> LastMessage { get { return Set<LastMessage>(); } }
+        public DbSet<ErrorLog> ErrorLog { get { return Set<ErrorLog>(); } }
+
+        public DbSet<UserLoginRecords> UserLoginRecords { get { return Set<UserLoginRecords>(); } }
+
+        public DbSet<UserRelation> UserRelation { get { return Set<UserRelation>(); } }
 
         #endregion
     }

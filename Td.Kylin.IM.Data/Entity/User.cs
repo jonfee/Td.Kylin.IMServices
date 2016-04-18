@@ -32,14 +32,19 @@ namespace Td.Kylin.IM.Data.Entity
         public string Photo { get; set; }
 
         /// <summary>
-        /// 未读消息数量
+        /// 未接收的消息数量
         /// </summary>
-        public int UnreadCount { get; set; }
+        public int UnReceivedCount { get; set; }
 
         /// <summary>
         /// 账号状态
         /// </summary>
         public int Status { get; set; }
+
+        /// <summary>
+        /// 最后一次登录时间
+        /// </summary>
+        public DateTime LastLoginTime { get; set; }
 
         /// <summary>
         /// 创建时间

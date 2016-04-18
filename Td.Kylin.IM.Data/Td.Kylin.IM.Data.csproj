@@ -135,15 +135,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entity\LastMessage.cs" />
+    <Compile Include="Entity\ErrorLog.cs" />
     <Compile Include="Entity\MessageHistory.cs" />
-    <Compile Include="Entity\UnreadMessage.cs" />
+    <Compile Include="Entity\UnSendMessage.cs" />
     <Compile Include="Entity\User.cs" />
+    <Compile Include="Entity\UserLoginRecords.cs" />
+    <Compile Include="Entity\UserRelation.cs" />
+    <Compile Include="Enum\TerminalDevice.cs" />
     <Compile Include="Enum\UserStatus.cs" />
     <Compile Include="Enum\UserType.cs" />
     <Compile Include="IMDataInjection.cs" />
     <Compile Include="IMDataMiddleware.cs" />
     <Compile Include="Context\DataContext.cs" />
+    <Compile Include="IService\IErrorLogService.cs" />
+    <Compile Include="IService\IUnsendMessageService.cs" />
+    <Compile Include="IService\IUserService.cs" />
+    <Compile Include="ServicesProvider.cs" />
+    <Compile Include="Service\ErrorLogService.cs" />
+    <Compile Include="Service\UnsendMessageService.cs" />
+    <Compile Include="Service\UserService.cs" />
     <Compile Include="StartupConfig.cs" />
     <Compile Include="Context\MsSqlContext.cs" />
     <Compile Include="Context\PostgreSqlContext.cs" />
@@ -153,6 +163,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace IMService
 {
-    public partial class IMService : ServiceBase
+    public partial class Service : ServiceBase
     {
-        public IMService()
+        public Service()
         {
             InitializeComponent();
         }

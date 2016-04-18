@@ -8,9 +8,10 @@ using CodeFirst.Context;
 namespace CodeFirst.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20160418045121_addTable_ErrorLog")]
+    partial class addTable_ErrorLog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");
@@ -33,8 +34,6 @@ namespace CodeFirst.Migrations
 
                     b.Property<string>("StackTrace")
                         .HasAnnotation("Relational:ColumnType", "text");
-
-                    b.Property<string>("Tag");
 
                     b.HasKey("LogID");
 
@@ -126,8 +125,6 @@ namespace CodeFirst.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<DateTime>("LastLoginTime");
-
                     b.Property<string>("NickName")
                         .HasAnnotation("Relational:ColumnType", "varchar(50)");
 
@@ -143,29 +140,6 @@ namespace CodeFirst.Migrations
                     b.HasKey("UserID");
 
                     b.HasAnnotation("Relational:TableName", "User");
-                });
-
-            modelBuilder.Entity("Td.Kylin.IM.Data.Entity.UserLoginRecords", b =>
-                {
-                    b.Property<long>("RecordID");
-
-                    b.Property<int>("AreaID");
-
-                    b.Property<string>("AreaName");
-
-                    b.Property<double>("Latitude");
-
-                    b.Property<DateTime>("LoginTime");
-
-                    b.Property<double>("Longitude");
-
-                    b.Property<int>("TerminalDevice");
-
-                    b.Property<long>("UserID");
-
-                    b.HasKey("RecordID");
-
-                    b.HasAnnotation("Relational:TableName", "UserLoginRecords");
                 });
         }
     }

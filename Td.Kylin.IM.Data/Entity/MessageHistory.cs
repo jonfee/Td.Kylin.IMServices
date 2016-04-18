@@ -22,18 +22,18 @@ namespace Td.Kylin.IM.Data.Entity
         /// <summary>
         /// 发送者ID
         /// </summary>
-        public long UserID { get; set; }
+        public long SenderID { get; set; }
 
         /// <summary>
         /// 发送者名称
         /// </summary>
         [Column(TypeName = "varchar(50)")]
-        public string UserName { get; set; }
+        public string SenderName { get; set; }
 
         /// <summary>
         /// 接收者ID
         /// </summary>
-        public long Receiver { get; set; }
+        public long ReceiverID { get; set; }
 
         /// <summary>
         /// 接收者名称
@@ -51,11 +51,6 @@ namespace Td.Kylin.IM.Data.Entity
         /// 发送时间
         /// </summary>
         public DateTime SendTime { get; set; }
-
-        /// <summary>
-        /// 是否已读
-        /// </summary>
-        public bool IsRead { get; set; }
 
         /// <summary>
         /// 查看时间

@@ -17,7 +17,7 @@ namespace IMService
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                new IMService()
+                new Service()
             };
             ServiceBase.Run(ServicesToRun);
         }
