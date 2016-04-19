@@ -25,6 +25,12 @@ namespace Td.Kylin.IM.Data.Entity
         public long SenderID { get; set; }
 
         /// <summary>
+        /// 发送者名称
+        /// </summary>
+        [Column(TypeName = "varchar(50)")]
+        public string SenderName { get; set; }
+
+        /// <summary>
         /// 接收者ID
         /// </summary>
         public long ReceiverID { get; set; }

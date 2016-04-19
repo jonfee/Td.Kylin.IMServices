@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Td.Kylin.IM.Data.Entity;
 
 namespace Td.Kylin.IM.Data.IService
@@ -15,5 +16,19 @@ namespace Td.Kylin.IM.Data.IService
         /// <param name="receiverID"></param>
         /// <returns></returns>
         List<UnSendMessage> GetList(long receiverID);
+
+        /// <summary>
+        /// 添加消息到未发送记录
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        Task<int> AddMessage(UnSendMessage message);
+
+        /// <summary>
+        /// 删除消息
+        /// </summary>
+        /// <param name="msgIDs"></param>
+        /// <returns></returns>
+        Task<int> DeleteMessage(long[] msgIDs);
     }
 }

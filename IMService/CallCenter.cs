@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using IMService.Core;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Td.Kylin.IM.Data;
+using Td.Kylin.IM.Data.Entity;
 using Td.Messenge.Protocols;
 using TDQueue;
 using XL.Sockets;
@@ -81,8 +84,38 @@ namespace IMService
         {
             while (true)
             {
-                //写入数据库
+                //出队
+                var item = QueueWriteToHistory.DeQueue();
 
+                if (null != item)
+                {
+                    var userNameDic = ServicesProvider.Items.UserService.GetUserName(new[] { item.SenderID, item.ReceiverID });
+
+                    MessageHistory message = new MessageHistory
+                    {
+                        Content = item.Content,
+                        MessageID = IDProvider.NewId(),
+                        MessageType = item.MessageType,
+                        ReadTime = item.SendTime,
+                        ReceiverID = item.ReceiverID,
+                        ReceiverName = userNameDic.ContainsKey(item.ReceiverID) ? userNameDic[item.ReceiverID] : item.ReceiverName,
+                        SenderID = item.SenderID,
+                        SenderName = userNameDic.ContainsKey(item.SenderID) ? userNameDic[item.SenderID] : string.Empty,
+                        SendTime = item.SendTime
+                    };
+
+                    //写入数据库
+                    ServicesProvider.Items.MessageHistoryService.AddMessage(message);
+
+                    //检测用户之间是否存在关联
+                    bool hasRelation = ServicesProvider.Items.UserRelationService.HasRelation(message.SenderID, message.ReceiverID);
+
+                    //不存在则创建关联
+                    if (!hasRelation)
+                    {
+                        ServicesProvider.Items.UserRelationService.CreateRelation(message.SenderID, message.ReceiverID);
+                    }
+                }
 
                 //避免无数据操作时CPU空转
                 Thread.Sleep(100);
@@ -97,20 +130,62 @@ namespace IMService
         {
             while (true)
             {
-                //写入数据库
+                //出队
+                var item = QueueUnSend.DeQueue();
 
+                if (null != item)
+                {
+                    UnSendMessage message = new UnSendMessage
+                    {
+                        Content = item.Content,
+                        MessageID = IDProvider.NewId(),
+                        MessageType = item.MessageType,
+                        ReceiverID = item.ReceiverID,
+                        SenderID = item.SenderID,
+                        SenderName = item.SernderName,
+                        SendTime = item.SendTime
+                    };
+
+                    //写入数据库
+                    ServicesProvider.Items.UnsendMessageService.AddMessage(message);
+                }
 
                 //避免无数据操作时CPU空转
                 Thread.Sleep(100);
             }
         }
 
+        /// <summary>
+        /// 登录操作队列处理
+        /// </summary>
+        /// <param name="state"></param>
         private void QueueLoginStart(object state)
         {
             while (true)
             {
-                //写入数据库
+                //出队
+                var item = QueueLogin.DeQueue();
 
+                if (null != item)
+                {
+                    UserLoginRecords records = new UserLoginRecords
+                    {
+                        AreaID = item.AreaID,
+                        AreaName = item.AreaName,
+                        Latitude = item.Latitude,
+                        LoginTime = item.LoginTime,
+                        Longitude = item.Longitude,
+                        RecordID = IDProvider.NewId(),
+                        TerminalDevice = item.TerminalDevice,
+                        UserID = item.UserID
+                    };
+
+                    //更新用户最后登录时间
+                    ServicesProvider.Items.UserService.UpdateLastLoginTime(item.UserID, item.LoginTime);
+
+                    //记录登录操作信息
+                    ServicesProvider.Items.UserLoginRecordService.AddRecord(records);
+                }
 
                 //避免无数据操作时CPU空转
                 Thread.Sleep(100);
@@ -202,6 +277,10 @@ namespace IMService
         {
             var login = e.Message as Login;
 
+            if (null == login) return;
+
+            login.LoginTime = DateTime.Now;
+
             //写入登录队列处理
             QueueLogin.EnQueue(login);
 
@@ -222,6 +301,7 @@ namespace IMService
                         MessageID = item.MessageID,
                         MessageType = item.MessageType,
                         SenderID = item.SenderID,
+                        SernderName = item.SenderName,
                         SendTime = item.SendTime
                     });
                 }));
@@ -233,6 +313,10 @@ namespace IMService
 
                 //更新未接收数量标识信息
                 AddUnrecived(login.UserID, back.MessageCount);
+
+                //将本次回传的消息从未发送记录数据库中移除
+                long[] delIDs = unreceivedList.Select(p => p.MessageID).ToArray();
+                ServicesProvider.Items.UnsendMessageService.DeleteMessage(delIDs);
             }
         }
 
@@ -243,6 +327,11 @@ namespace IMService
         private void RecieveForTextMessage(PackageReceiveArgs e)
         {
             var msg = e.Message as TextMessage;
+
+            if (null == msg) return;
+
+            msg.MessageID = IDProvider.NewId();
+            msg.SendTime = DateTime.Now;
 
             IChannel channel = GetUserChannel(msg.ReceiverID);
 

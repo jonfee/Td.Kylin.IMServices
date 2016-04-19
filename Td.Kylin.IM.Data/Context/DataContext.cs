@@ -58,7 +58,7 @@ namespace Td.Kylin.IM.Data.Context
 
         public DbSet<MessageHistory> MessageHistory { get { return Set<MessageHistory>(); } }
 
-        public DbSet<UnSendMessage> UnreadMessage { get { return Set<UnSendMessage>(); } }
+        public DbSet<UnSendMessage> UnSendMessage { get { return Set<UnSendMessage>(); } }
 
         public DbSet<ErrorLog> ErrorLog { get { return Set<ErrorLog>(); } }
 

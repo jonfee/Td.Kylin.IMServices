@@ -56,6 +56,12 @@ namespace Td.Kylin.IM.Data
 
         public IUserService UserService { get; private set; }
 
+        public IMessageHistoryService MessageHistoryService { get; private set; }
+
+        public IUserRelationService UserRelationService { get; private set; }
+
+        public IUserLoginRecordService UserLoginRecordService { get; private set; }
+
         #endregion
 
         /// <summary>
@@ -67,6 +73,9 @@ namespace Td.Kylin.IM.Data
             ErrorLogService = new ErrorLogService<DbContext>();
             UnsendMessageService = new UnsendMessageService<DbContext>();
             UserService = new UserService<DbContext>();
+            MessageHistoryService = new MessageHistoryService<DbContext>();
+            UserRelationService = new UserRelationService<DbContext>();
+            UserLoginRecordService = new UserLoginRecordService<DbContext>();
         }
     }
 }
