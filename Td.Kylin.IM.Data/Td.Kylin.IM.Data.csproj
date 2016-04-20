@@ -150,6 +150,7 @@
     <Compile Include="IService\IUserLoginRecordService.cs" />
     <Compile Include="IService\IUserRelationService.cs" />
     <Compile Include="IService\IUserService.cs" />
+    <Compile Include="Model\UserLoginInfo.cs" />
     <Compile Include="ServicesProvider.cs" />
     <Compile Include="Service\ErrorLogService.cs" />
     <Compile Include="Service\MessageHistoryService.cs" />

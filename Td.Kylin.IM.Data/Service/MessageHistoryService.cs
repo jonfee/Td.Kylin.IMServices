@@ -16,13 +16,13 @@ namespace Td.Kylin.IM.Data.Service
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public Task<int> AddMessage(MessageHistory message)
+        public async Task<int> AddMessage(MessageHistory message)
         {
             using (var db = new DbContext())
             {
                 db.MessageHistory.Add(message);
 
-                return db.SaveChangesAsync();
+                return await db.SaveChangesAsync();
             }
         }
     }

@@ -21,7 +21,7 @@ namespace Td.Kylin.IM.Data.Service
         /// <param name="firstUser"></param>
         /// <param name="secondUser"></param>
         /// <returns></returns>
-        public Task<int> CreateRelation(long firstUser, long secondUser)
+        public async Task<int> CreateRelation(long firstUser, long secondUser)
         {
             using (var db = new DbContext())
             {
@@ -38,7 +38,7 @@ namespace Td.Kylin.IM.Data.Service
 
                 db.UserRelation.Add(item);
 
-                return db.SaveChangesAsync();
+                return await db.SaveChangesAsync();
             }
         }
 

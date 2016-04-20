@@ -8,9 +8,10 @@ using CodeFirst.Context;
 namespace CodeFirst.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20160419094841_removeColumnForUser_UnreceivedCount")]
+    partial class removeColumnForUser_UnreceivedCount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");
@@ -98,8 +99,6 @@ namespace CodeFirst.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<string>("LastLoginAddress");
-
                     b.Property<DateTime>("LastLoginTime");
 
                     b.Property<string>("NickName")
@@ -107,10 +106,6 @@ namespace CodeFirst.Migrations
 
                     b.Property<string>("Photo")
                         .HasAnnotation("Relational:ColumnType", "varchar(100)");
-
-                    b.Property<string>("PrevLoginAddress");
-
-                    b.Property<DateTime>("PrevLoginTime");
 
                     b.Property<int>("Status");
 

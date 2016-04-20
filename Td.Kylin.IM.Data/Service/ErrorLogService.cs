@@ -17,9 +17,9 @@ namespace Td.Kylin.IM.Data.Service
         /// </summary>
         /// <param name="ex"></param>
         /// <param name="tag"></param>
-        public Task<int> AddLog(Exception ex, string tag)
+        public async Task<int> AddLog(Exception ex, string tag)
         {
-            if (null == ex) return null;
+            if (null == ex) return 0;
 
             using (var db = new DbContext())
             {
@@ -36,7 +36,7 @@ namespace Td.Kylin.IM.Data.Service
 
                 db.ErrorLog.Add(log);
 
-                return db.SaveChangesAsync();
+                return await db.SaveChangesAsync();
             }
         }
     }

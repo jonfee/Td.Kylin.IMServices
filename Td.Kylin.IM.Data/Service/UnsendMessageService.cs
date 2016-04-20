@@ -19,13 +19,13 @@ namespace Td.Kylin.IM.Data.Service
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public Task<int> AddMessage(UnSendMessage message)
+        public async Task<int> AddMessage(UnSendMessage message)
         {
             using (var db = new DbContext())
             {
                 db.UnSendMessage.Add(message);
 
-                return db.SaveChangesAsync();
+                return await db.SaveChangesAsync();
             }
         }
 
@@ -34,7 +34,7 @@ namespace Td.Kylin.IM.Data.Service
         /// </summary>
         /// <param name="msgIDs"></param>
         /// <returns></returns>
-        public Task<int> DeleteMessage(long[] msgIDs)
+        public async Task<int> DeleteMessage(long[] msgIDs)
         {
             using (var db = new DbContext())
             {
@@ -49,7 +49,7 @@ namespace Td.Kylin.IM.Data.Service
 
                 db.UnSendMessage.RemoveRange(entities);
 
-                return db.SaveChangesAsync();
+                return await db.SaveChangesAsync();
             }
         }
 

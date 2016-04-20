@@ -1,0 +1,7 @@
+@echo.·þÎñÉ¾³ý  
+@echo off
+@sc stop IMService
+@sc delete IMService
+@echo off  
+@echo.É¾³ý½áÊø£¡  
+@pause  

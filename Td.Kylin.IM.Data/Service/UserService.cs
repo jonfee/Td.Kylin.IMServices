@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Td.Kylin.IM.Data.Context;
 using Td.Kylin.IM.Data.Entity;
 using Td.Kylin.IM.Data.IService;
+using Td.Kylin.IM.Data.Model;
 
 namespace Td.Kylin.IM.Data.Service
 {
@@ -28,8 +28,8 @@ namespace Td.Kylin.IM.Data.Service
                             where userIds.Contains(p.UserID)
                             select new
                             {
-                                ID=p.UserID,
-                                Name=p.NickName
+                                ID = p.UserID,
+                                Name = p.NickName
                             };
 
                 return query.ToDictionary(k => k.ID, v => v.Name);
@@ -37,42 +37,79 @@ namespace Td.Kylin.IM.Data.Service
         }
 
         /// <summary>
-        /// 更新用户最后登录时间
+        /// 更新用户最后登录信息
         /// </summary>
         /// <param name="userID"></param>
+        /// <param name="name"></param>
+        /// <param name="userType"></param>
+        /// <param name="lastLoginAddress"></param>
         /// <param name="lastLoginTime"></param>
         /// <returns></returns>
-        public Task<int> UpdateLastLoginTime(long userID, DateTime lastLoginTime)
+        public async Task<int> UpdateLastInfo(long userID, string name, int userType, string lastLoginAddress, DateTime lastLoginTime)
         {
             using (var db = new DbContext())
             {
                 var item = db.User.SingleOrDefault(p => p.UserID == userID);
 
-                db.Entry(item).Property(p => p.LastLoginTime).IsModified = true;
+                if (null == item)
+                {
+                    item = new User
+                    {
+                        CreateTime = DateTime.Now,
+                        LastLoginAddress = lastLoginAddress,
+                        LastLoginTime = lastLoginTime,
+                        NickName = name,
+                        Photo = string.Empty,
+                        PrevLoginAddress = lastLoginAddress,
+                        PrevLoginTime = lastLoginTime,
+                        Status = 0,
+                        UserID = userID,
+                        UserType = userType
+                    };
+                    db.User.Add(item);
+                }
+                else
+                {
+                    db.Entry(item).Property(p => p.NickName).IsModified = true;
+                    db.Entry(item).Property(p => p.UserType).IsModified = true;
+                    db.Entry(item).Property(p => p.PrevLoginAddress).IsModified = true;
+                    db.Entry(item).Property(p => p.PrevLoginTime).IsModified = true;
+                    db.Entry(item).Property(p => p.LastLoginAddress).IsModified = true;
+                    db.Entry(item).Property(p => p.LastLoginTime).IsModified = true;
 
-                item.LastLoginTime = lastLoginTime;
+                    item.NickName = name;
+                    item.UserType = userType;
+                    item.PrevLoginAddress = item.LastLoginAddress;
+                    item.PrevLoginTime = item.PrevLoginTime;
+                    item.LastLoginAddress = lastLoginAddress;
+                    item.LastLoginTime = lastLoginTime;
+                }
 
-                return db.SaveChangesAsync();
+                return await db.SaveChangesAsync();
             }
         }
-
+        
         /// <summary>
-        /// 更新用户未接收消息的数量
+        /// 获取用户登录信息
         /// </summary>
         /// <param name="userID"></param>
-        /// <param name="count"></param>
         /// <returns></returns>
-        public Task<int> UpdateUserUnReceivedCount(long userID, int count)
+        public UserLoginInfo GetUserLoginInfo(long userID)
         {
             using (var db = new DbContext())
             {
-                var item = db.User.SingleOrDefault(p => p.UserID == userID);
+                var query = from p in db.User
+                            where p.UserID == userID
+                            select new UserLoginInfo
+                            {
+                                UserID = p.UserID,
+                                LastLoginAddress = p.LastLoginAddress,
+                                LastLoginTime = p.LastLoginTime,
+                                PrevLoginAddress = p.PrevLoginAddress,
+                                PrevLoginTime = p.PrevLoginTime
+                            };
 
-                db.Entry(item).Property(p => p.UnReceivedCount).IsModified = true;
-
-                item.UnReceivedCount += count;
-
-                return db.SaveChangesAsync();
+                return query.FirstOrDefault();
             }
         }
     }

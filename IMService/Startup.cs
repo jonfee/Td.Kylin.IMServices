@@ -1,7 +1,4 @@
-﻿using IMService;
-using System;
-using System.Configuration;
-using System.Linq;
+﻿using System.Configuration;
 using System.Net;
 using Td.Kylin.IM.Data;
 using Td.Kylin.IM.Data.Enum;
@@ -11,9 +8,9 @@ namespace IMService
     /// <summary>
     /// 用作启动项类
     /// </summary>
-    internal class Startup
+    internal sealed class Startup
     {
-        static Startup()
+       public static void  Init()
         {
             string conn = ConfigurationManager.ConnectionStrings["KylinIMConnectionString"].ConnectionString;
 
