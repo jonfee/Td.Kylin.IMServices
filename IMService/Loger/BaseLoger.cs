@@ -57,7 +57,7 @@ namespace IMService.Loger
                     sw.Close();
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 //忽略异常
             }

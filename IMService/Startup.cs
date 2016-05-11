@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Net;
 using Td.Kylin.IM.Data;
 using Td.Kylin.IM.Data.Enum;
@@ -12,9 +13,23 @@ namespace IMService
     {
        public static void  Init()
         {
+            SqlType = new Func<SqlProviderType>(() =>
+              {
+                  string sqlType = ConfigurationManager.AppSettings["SqlType"]??string.Empty;
+
+                  switch (sqlType.ToLower())
+                  {
+                      case "pgsql":
+                          return SqlProviderType.POSTGRESQL;
+                      case "mssql":
+                      default:
+                          return SqlProviderType.MSSQL;
+                  }
+              }).Invoke();
+
             string conn = ConfigurationManager.ConnectionStrings["KylinIMConnectionString"].ConnectionString;
 
-            IMDataInjection.UseIMData(SqlProviderType.POSTGRESQL, conn);
+            IMDataInjection.UseIMData(SqlType, conn);
 
             ServerConfig = new ServerConfig
             {
@@ -23,6 +38,8 @@ namespace IMService
                 MaxConnectionCount = int.Parse(ConfigurationManager.AppSettings["MaxConnectionCount"])
             };
         }
+
+        public static SqlProviderType SqlType;
 
         /// <summary>
         /// IM服务端配置

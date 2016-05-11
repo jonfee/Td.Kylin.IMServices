@@ -9,7 +9,8 @@ namespace CodeFirst.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
-            optionBuilder.UseNpgsql(Startup.Configuration["Data:IMConnectionString"]);
+            //optionBuilder.UseNpgsql(Startup.Configuration["Data:IMConnectionString"]);
+            optionBuilder.UseSqlServer(Startup.Configuration["Data:IMConnectionString"]);
         }
     }
 }
