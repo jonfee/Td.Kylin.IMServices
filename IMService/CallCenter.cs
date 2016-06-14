@@ -147,7 +147,7 @@ namespace IMService
             while (true)
             {
                 //出队
-                var item = QueueWriteToHistory.DeQueue();  
+                var item = QueueWriteToHistory.DeQueue();
 
                 if (null != item)
                 {
@@ -158,12 +158,12 @@ namespace IMService
                         Content = item.Content,
                         MessageID = IDProvider.NewId(),
                         MessageType = item.MessageType,
-                        ReadTime = item.SendTime,
+                        ReadTime = item.SendTime.ToDateTime(),
                         ReceiverID = item.ReceiverID,
                         ReceiverName = userNameDic.ContainsKey(item.ReceiverID) ? userNameDic[item.ReceiverID] : item.ReceiverName,
                         SenderID = item.SenderID,
                         SenderName = userNameDic.ContainsKey(item.SenderID) ? userNameDic[item.SenderID] : string.Empty,
-                        SendTime = item.SendTime
+                        SendTime = item.SendTime.ToDateTime()
                     };
 
                     //写入数据库
@@ -195,7 +195,7 @@ namespace IMService
                         ReceiverID = item.ReceiverID,
                         SenderID = item.SenderID,
                         SenderName = item.SernderName,
-                        SendTime = item.SendTime
+                        SendTime = item.SendTime.ToDateTime()
                     };
 
                     //写入数据库
@@ -224,7 +224,7 @@ namespace IMService
                         AreaID = item.AreaID,
                         AreaName = item.AreaName,
                         Latitude = item.Latitude,
-                        LoginTime = item.LoginTime,
+                        LoginTime = item.LoginTime.ToDateTime(),
                         Longitude = item.Longitude,
                         RecordID = IDProvider.NewId(),
                         TerminalDevice = item.TerminalDevice,
@@ -232,7 +232,7 @@ namespace IMService
                     };
 
                     //更新用户信息
-                    ServicesProvider.Items.UserService.UpdateLastInfo(item.UserID, item.UserName, item.UserType, item.AreaName, item.LoginTime);
+                    ServicesProvider.Items.UserService.UpdateLastInfo(item.UserID, item.UserName, item.UserType, item.AreaName, item.LoginTime.ToDateTime());
 
                     //记录登录操作信息
                     ServicesProvider.Items.UserLoginRecordService.AddRecord(records);
@@ -366,8 +366,8 @@ namespace IMService
             var login = e.Message as Login;
 
             if (null == login) return;
-            
-            login.LoginTime = DateTime.Now;
+
+            login.LoginTime = DateTime.Now.ToDateTimeString();
 
             //设置通道名称为UserID
             e.Channel.Name = login.UserID.ToString();
@@ -386,18 +386,18 @@ namespace IMService
                 {
                     UserID = login.UserID,
                     LastLoginAddress = login.AreaName,
-                    LastLoginTime = login.LoginTime,
+                    LastLoginTime = login.LoginTime.ToDateTime(),
                     PrevLoginAddress = login.AreaName,
-                    PrevLoginTime = login.LoginTime
+                    PrevLoginTime = login.LoginTime.ToDateTime()
                 };
             }
             //如果获取的登录信息记录的最后登录时间与本次登录时间不一致，说明未更新到当前登录，则采用最后前置
-            else if (loginInfo.LastLoginTime.ToString("yyyyMMddHHmmss") != login.LoginTime.ToString("yyyyMMddHHmmss"))
+            else if ((loginInfo.LastLoginTime - login.LoginTime.ToDateTime()).TotalSeconds < 1)
             {
                 loginInfo.PrevLoginAddress = loginInfo.LastLoginAddress;
                 loginInfo.PrevLoginTime = loginInfo.LastLoginTime;
                 loginInfo.LastLoginAddress = login.AreaName;
-                loginInfo.LastLoginTime = login.LoginTime;
+                loginInfo.LastLoginTime = login.LoginTime.ToDateTime();
             }
 
             //登录结果回传
@@ -439,7 +439,7 @@ namespace IMService
                             ReceiverID = m.ReceiverID,
                             ReceiverName = string.Empty,
                             SenderID = m.SenderID,
-                            SendTime = m.SendTime,
+                            SendTime = m.SendTime.ToDateTimeString(),
                             SernderName = m.SenderName
                         };
 
@@ -467,9 +467,9 @@ namespace IMService
             var msg = e.Message as TextMessage;
 
             if (null == msg) return;
-            
+
             msg.MessageID = IDProvider.NewId();
-            msg.SendTime = DateTime.Now;
+            msg.SendTime = DateTime.Now.ToDateTimeString();
 
             //加入写入历史消息队列
             QueueWriteToHistory.EnQueue(msg);
