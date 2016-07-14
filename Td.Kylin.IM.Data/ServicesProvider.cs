@@ -40,8 +40,9 @@ namespace Td.Kylin.IM.Data
             switch (StartupConfig.SqlType)
             {
                 case Enum.SqlProviderType.POSTGRESQL:
-                    InitServiceProvider<PostgreSqlContext>();
-                    break;
+                    throw new System.Exception("not found the postgres provider");
+                    //InitServiceProvider<PostgreSqlContext>();
+                    //break;
                 case Enum.SqlProviderType.MSSQL:
                     InitServiceProvider<MsSqlContext>();
                     break;

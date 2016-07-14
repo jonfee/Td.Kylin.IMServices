@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.Entity;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CodeFirst.Context
 {
@@ -10,7 +10,8 @@ namespace CodeFirst.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
             //optionBuilder.UseNpgsql(Startup.Configuration["Data:IMConnectionString"]);
-            optionBuilder.UseSqlServer(Startup.Configuration["Data:IMConnectionString"]);
+            string conn = Startup.Configuration["Data:IMConnectionString"];
+            optionBuilder.UseSqlServer(conn);
         }
     }
 }

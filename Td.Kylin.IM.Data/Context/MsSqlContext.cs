@@ -1,4 +1,6 @@
-﻿using Microsoft.Data.Entity;
+﻿
+
+using Microsoft.EntityFrameworkCore;
 
 namespace Td.Kylin.IM.Data.Context
 {

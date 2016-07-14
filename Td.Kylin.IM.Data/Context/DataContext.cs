@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Entity;
+﻿
+using Microsoft.EntityFrameworkCore;
 using Td.Kylin.IM.Data.Entity;
 
 namespace Td.Kylin.IM.Data.Context
