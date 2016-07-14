@@ -276,8 +276,8 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="安装卸载\Install.bat" />
-    <None Include="安装卸载\Uninstall.bat" />
+    <None Include="setup\Install.bat" />
+    <None Include="setup\Uninstall.bat" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
@@ -303,6 +303,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /e /s /k /v /i /y "$(ProjectDir)setup\*.*" "$(ProjectDir)$(OutDir)\setup\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
