@@ -5,16 +5,16 @@
       "type": "project",
       "framework": ".NETFramework,Version=v4.6",
       "compile": {
-        "bin/Debug/Td.Kylin.IM.Data.dll": {}
+        "bin/Release/Td.Kylin.IM.Data.dll": {}
       },
       "runtime": {
         "../packages/Microsoft.EntityFrameworkCore.1.0.0/lib/net451/Microsoft.EntityFrameworkCore.dll": {},
         "../packages/Microsoft.EntityFrameworkCore.Relational.1.0.0/lib/net451/Microsoft.EntityFrameworkCore.Relational.dll": {},
         "../packages/Microsoft.EntityFrameworkCore.SqlServer.1.0.0/lib/net451/Microsoft.EntityFrameworkCore.SqlServer.dll": {},
-        "bin/Debug/Td.Kylin.IM.Data.dll": {}
+        "bin/Release/Td.Kylin.IM.Data.dll": {}
       },
       "contentFiles": {
-        "bin/Debug/Td.Kylin.IM.Data.pdb": {
+        "bin/Release/Td.Kylin.IM.Data.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
